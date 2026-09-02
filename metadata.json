@@ -1,0 +1,6 @@
+{
+  "name": "Panel Notarial y Directorio de Clientes",
+  "description": "Sistema de gestión notarial, expedientes de clientes y asignaciones",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

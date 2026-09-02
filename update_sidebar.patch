@@ -1,0 +1,174 @@
+--- src/components/SidebarDock.tsx
++++ src/components/SidebarDock.tsx
+@@ -2,10 +2,9 @@
+ import { 
+-  User, 
++  Users,
++  CheckSquare,
++  Settings,
+   PieChart, 
+-  Bell, 
+-  Calendar, 
+-  Mail, 
+-  PenLine 
++  Bell
+ } from 'lucide-react';
+ import { motion } from 'motion/react';
+ 
+@@ -58,7 +57,7 @@
+         id="sidebar-brand-btn"
+         type="button"
+-        aria-label="Panel principal"
++        title="Panel"
++        aria-label="Panel"
+         onClick={() => onSelectTab?.('dashboard')}
+         className="w-11 h-11 bg-white/95 dark:bg-[#16161C] rounded-2xl flex items-center justify-center shadow-[0_4px_16px_rgba(0,0,0,0.15)] border border-white/40 dark:border-white/10 transition-transform mb-6 mt-14 cursor-pointer"
+       >
+@@ -75,81 +74,80 @@
+       <nav className="flex flex-col items-center space-y-5 flex-1 w-full px-2 mb-10" aria-label="Navegación principal">
+-        {/* User / Profile */}
++        {/* Clientes */}
+         <motion.button 
+           whileHover={{ scale: 1.15 }}
+           whileTap={{ scale: 0.9 }}
+-          id="nav-user"
++          id="nav-clientes"
+           type="button"
+-          aria-label="Perfil de usuario"
+-          onClick={() => onSelectTab?.('user')}
++          title="Clientes"
++          aria-label="Clientes"
++          onClick={() => onSelectTab?.('clientes')}
+           className={`relative p-2.5 rounded-xl transition-all cursor-pointer ${
+-            activeTab === 'user' ? 'bg-white/25 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/15'
++            activeTab === 'clientes' ? 'bg-white/25 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/15'
+           }`}
+         >
+-          <User className="w-4 h-4" strokeWidth={2.2} />
++          <Users className="w-4 h-4" strokeWidth={2.2} />
+         </motion.button>
+ 
+-        {/* Pie Analytics with PRO badge */}
+-        <div className="relative flex items-center justify-center">
+-          <motion.button 
+-            whileHover={{ scale: 1.15 }}
+-            whileTap={{ scale: 0.9 }}
+-            id="nav-analytics"
+-            type="button"
+-            aria-label="Analíticas (Pro)"
+-            onClick={() => onSelectTab?.('analytics')}
+-            className={`p-2.5 rounded-xl transition-all cursor-pointer ${
+-              activeTab === 'analytics' ? 'bg-white/25 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/15'
+-            }`}
+-          >
+-            <PieChart className="w-4 h-4" strokeWidth={2.2} />
+-          </motion.button>
+-          <span 
+-            id="nav-badge-pro"
+-            className="absolute -right-2.5 top-0.5 px-1.5 py-0.2 bg-[#4ADE80] text-[#064E3B] text-[9px] font-bold rounded-full tracking-tight shadow-sm pointer-events-none"
+-          >
+-            PRO
+-          </span>
+-        </div>
++        {/* Tareas */}
++        <motion.button 
++          whileHover={{ scale: 1.15 }}
++          whileTap={{ scale: 0.9 }}
++          id="nav-tareas"
++          type="button"
++          title="Tareas"
++          aria-label="Tareas"
++          onClick={() => onSelectTab?.('tareas')}
++          className={`relative p-2.5 rounded-xl transition-all cursor-pointer ${
++            activeTab === 'tareas' ? 'bg-white/25 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/15'
++          }`}
++        >
++          <CheckSquare className="w-4 h-4" strokeWidth={2.2} />
++        </motion.button>
+ 
+-        {/* Notifications Bell */}
++        {/* Alertas */}
+         <motion.button 
+           whileHover={{ scale: 1.15 }}
+           whileTap={{ scale: 0.9 }}
+-          id="nav-bell"
++          id="nav-alertas"
+           type="button"
+-          aria-label="Notificaciones"
+-          onClick={() => onSelectTab?.('notifications')}
++          title="Alertas"
++          aria-label="Alertas"
++          onClick={() => onSelectTab?.('alertas')}
+           className={`p-2.5 rounded-xl transition-all cursor-pointer ${
+-            activeTab === 'notifications' ? 'bg-white/25 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/15'
++            activeTab === 'alertas' ? 'bg-white/25 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/15'
+           }`}
+         >
+           <Bell className="w-4 h-4" strokeWidth={2.2} />
+         </motion.button>
+ 
+-        {/* Calendar */}
++        {/* Reportes */}
+         <motion.button 
+           whileHover={{ scale: 1.15 }}
+           whileTap={{ scale: 0.9 }}
+-          id="nav-calendar"
++          id="nav-reportes"
+           type="button"
+-          aria-label="Calendario"
+-          onClick={() => onSelectTab?.('calendar')}
++          title="Reportes"
++          aria-label="Reportes"
++          onClick={() => onSelectTab?.('reportes')}
+           className={`p-2.5 rounded-xl transition-all cursor-pointer ${
+-            activeTab === 'calendar' ? 'bg-white/25 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/15'
++            activeTab === 'reportes' ? 'bg-white/25 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/15'
+           }`}
+         >
+-          <Calendar className="w-4 h-4" strokeWidth={2.2} />
++          <PieChart className="w-4 h-4" strokeWidth={2.2} />
+         </motion.button>
+ 
+-        {/* Mail with notification dot */}
+-        <div className="relative flex items-center justify-center">
+-          <motion.button 
+-            whileHover={{ scale: 1.15 }}
+-            whileTap={{ scale: 0.9 }}
+-            id="nav-mail"
+-            type="button"
+-            aria-label="Bandeja de entrada"
+-            onClick={() => onSelectTab?.('mail')}
+-            className={`p-2.5 rounded-xl transition-all cursor-pointer ${
+-              activeTab === 'mail' ? 'bg-white/25 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/15'
+-            }`}
+-          >
+-            <Mail className="w-4 h-4" strokeWidth={2.2} />
+-          </motion.button>
+-          <span 
+-            id="nav-badge-mail-dot"
+-            className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#FBBF24] rounded-full ring-2 ring-[#7C3AED]" 
+-          />
+-        </div>
+-
+-        {/* Notes / Document / Edit */}
++        {/* Configuracion */}
+         <motion.button 
+           whileHover={{ scale: 1.15 }}
+           whileTap={{ scale: 0.9 }}
+-          id="nav-notes"
++          id="nav-configuracion"
+           type="button"
+-          aria-label="Notas"
+-          onClick={() => onSelectTab?.('notes')}
++          title="Configuración"
++          aria-label="Configuración"
++          onClick={() => onSelectTab?.('configuracion')}
+           className={`p-2.5 rounded-xl transition-all cursor-pointer ${
+-            activeTab === 'notes' ? 'bg-white/25 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/15'
++            activeTab === 'configuracion' ? 'bg-white/25 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/15'
+           }`}
+         >
+-          <PenLine className="w-4 h-4" strokeWidth={2.2} />
++          <Settings className="w-4 h-4" strokeWidth={2.2} />
+         </motion.button>
+       </nav>
