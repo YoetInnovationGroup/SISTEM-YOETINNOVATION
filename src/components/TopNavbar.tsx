@@ -20,25 +20,23 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
 }) => {
   return (
     <header id="top-navbar" className="flex items-center justify-between gap-4 w-full pb-2 pt-0 select-none">
-      {/* Brand: Favicon Icon + Yoet Text Image */}
+      {/* Brand: Favicon Icon + Yoet Text Image (Static Display Only) */}
       <div 
-        onClick={() => onSelectSection?.('dashboard')}
-        className="flex items-center gap-0 select-none cursor-pointer"
-        title="Ir al Panel"
+        className="flex items-center gap-0 select-none pointer-events-none cursor-default"
       >
         {/* Favicon Logo Mark */}
         <img 
           src="https://i.imgur.com/oIHIGTx.png" 
           alt="Yoet Favicon" 
           referrerPolicy="no-referrer"
-          className="h-10 sm:h-12 md:h-14 w-auto object-contain brightness-0 shrink-0"
+          className="h-10 sm:h-12 md:h-14 w-auto object-contain brightness-0 shrink-0 pointer-events-none select-none"
         />
         {/* Yoet Text Brand - Static Logo */}
         <img 
           src="https://i.imgur.com/KAyqArH.png" 
           alt="Yoet" 
           referrerPolicy="no-referrer"
-          className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto object-contain brightness-0 shrink-0 -ml-5 sm:-ml-7 md:-ml-9 lg:-ml-10"
+          className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto object-contain brightness-0 shrink-0 -ml-5 sm:-ml-7 md:-ml-9 lg:-ml-10 pointer-events-none select-none"
         />
       </div>
 
