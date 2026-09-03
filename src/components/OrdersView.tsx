@@ -52,7 +52,7 @@ export const OrdersView: React.FC<{ onOpenNewClientModal?: () => void }> = () =>
   }, []);
   const [orderForm, setOrderForm] = useState({
     clientName: '',
-    serviceTitle: 'Escritura Pública y Protocolo',
+    serviceTitle: 'Constitución de Sociedad',
     amount: '$1,500',
     paymentStatus: 'In Progress' as 'Paid' | 'Pending' | 'In Progress',
   });
@@ -78,7 +78,7 @@ export const OrdersView: React.FC<{ onOpenNewClientModal?: () => void }> = () =>
     setIsCreateModalOpen(false);
     setOrderForm({
       clientName: '',
-      serviceTitle: 'Escritura Pública y Protocolo',
+      serviceTitle: 'Constitución de Sociedad',
       amount: '$1,500',
       paymentStatus: 'In Progress',
     });
@@ -261,12 +261,16 @@ export const OrdersView: React.FC<{ onOpenNewClientModal?: () => void }> = () =>
                   <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
                     Servicio Notarial
                   </label>
-                  <input
-                    type="text"
+                  <select
                     value={orderForm.serviceTitle}
                     onChange={(e) => setOrderForm({ ...orderForm, serviceTitle: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-neutral-200 dark:border-[#2A2A32] bg-neutral-50 dark:bg-[#1C1C21] text-xs text-neutral-900 dark:text-white focus:ring-2 focus:ring-[#2575FC]"
-                  />
+                    className="w-full px-3 py-2 rounded-xl border border-neutral-200 dark:border-[#2A2A32] bg-neutral-50 dark:bg-[#1C1C21] text-xs text-neutral-900 dark:text-white focus:ring-2 focus:ring-[#2575FC] font-medium outline-none"
+                  >
+                    <option value="Constitución de Sociedad">Constitución de Sociedad</option>
+                    <option value="Poder">Poder</option>
+                    <option value="Fideicomiso">Fideicomiso</option>
+                    <option value="Testamentos">Testamentos</option>
+                  </select>
                 </div>
 
                 <div>

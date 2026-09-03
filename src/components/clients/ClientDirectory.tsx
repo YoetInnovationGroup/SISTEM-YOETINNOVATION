@@ -52,7 +52,7 @@ export const ClientDirectory: React.FC<ClientDirectoryProps> = ({
     nationality: 'Costarricense',
     civilStatus: 'Soltero(a)',
     occupation: '',
-    initialServiceType: 'Actos y contratos',
+    initialServiceType: 'Constitución de Sociedad',
     initialFee: '$1,200',
   });
 
@@ -69,7 +69,13 @@ export const ClientDirectory: React.FC<ClientDirectoryProps> = ({
   // Calculate totals
   const totalPhysical = clients.filter(c => c.personType === 'fisica').length;
   const totalJuridical = clients.filter(c => c.personType === 'juridica').length;
-  const totalDocsArchived = clients.reduce((acc, c) => acc + (c.referenceDocuments?.length || 0), 0);
+  const totalDocsArchived = clients.reduce((acc, c) => {
+    const cDocs = [
+      ...(c.referenceDocuments || []),
+      ...(c.services || []).flatMap(s => s.documents || [])
+    ];
+    return acc + cDocs.length;
+  }, 0);
   const totalActiveServices = clients.reduce((acc, c) => acc + (c.services?.filter(s => s.status === 'En proceso').length || 0), 0);
 
   // Filtering
@@ -160,7 +166,7 @@ export const ClientDirectory: React.FC<ClientDirectoryProps> = ({
       nationality: 'Costarricense',
       civilStatus: 'Soltero(a)',
       occupation: '',
-      initialServiceType: 'Actos y contratos',
+      initialServiceType: 'Constitución de Sociedad',
       initialFee: '$1,200',
     });
   };
@@ -277,9 +283,13 @@ export const ClientDirectory: React.FC<ClientDirectoryProps> = ({
               <tbody className="divide-y divide-black/[0.04] dark:divide-white/[0.05]">
                 {filteredClients.map((client) => {
                   const isJuridica = client.personType === 'juridica';
-                  const mainService = client.services?.[0]?.serviceType || 'Actos y contratos';
-                  const readyDocs = client.referenceDocuments?.filter(d => d.status === 'Aportado').length || 0;
-                  const totalDocs = client.referenceDocuments?.length || 0;
+                  const mainService = client.services?.[0]?.serviceType || 'Constitución de Sociedad';
+                  const allDocs = [
+                    ...(client.referenceDocuments || []),
+                    ...(client.services || []).flatMap(s => s.documents || [])
+                  ];
+                  const readyDocs = allDocs.filter(d => d.status === 'Aportado').length;
+                  const totalDocs = allDocs.length;
 
                   return (
                     <tr 
@@ -578,13 +588,10 @@ export const ClientDirectory: React.FC<ClientDirectoryProps> = ({
                           onChange={(e) => setFormData({ ...formData, initialServiceType: e.target.value })}
                           className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-[#2A2A32] bg-white dark:bg-[#141417] text-sm sm:text-base font-semibold text-neutral-900 dark:text-white outline-none"
                         >
-                          <option value="Actos y contratos">Actos y contratos</option>
-                          <option value="Poderes">Poderes (Generalísimo / Especial)</option>
-                          <option value="Fideicomisos">Fideicomisos</option>
-                          <option value="Sociedades">Constitución / Reforma de Sociedades</option>
-                          <option value="Testamentos">Testamentos y Sucesiones</option>
-                          <option value="Compraventas">Compraventas de Inmuebles / Vehículos</option>
-                          <option value="Hipotecas">Hipotecas y Prendas</option>
+                          <option value="Constitución de Sociedad">Constitución de Sociedad</option>
+                          <option value="Poder">Poder</option>
+                          <option value="Fideicomiso">Fideicomiso</option>
+                          <option value="Testamentos">Testamentos</option>
                         </select>
                       </div>
                       <div>

@@ -73,21 +73,9 @@ interface ServiceDetailModalProps {
 }
 
 export const REFERENCE_DOCUMENT_OPTIONS = [
-  'Hoja de cálculo de honorarios',
-  'Entero de gobierno',
-  'Planos',
-  'Visados',
-  'SIRI',
-  'Municipalidad',
-  'Bomberos',
-  'Aguas',
-  'Electricidad',
-  'Uso de Suelo y Patente Municipal',
-  'Ministerio de Salud',
   'Identificación',
-  'Personería',
+  'Entero de Gobierno',
   'Documentos Apostillados',
-  'Reglamentos',
 ];
 
 export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({

@@ -27,7 +27,8 @@ import {
   Sparkles,
   MapPin,
   ShieldAlert,
-  FolderOpen
+  FolderOpen,
+  Trash2
 } from 'lucide-react';
 
 interface ClientDetailProps {
@@ -36,6 +37,7 @@ interface ClientDetailProps {
   onBack: () => void;
   onUpdateClient: (updatedClient: Client) => void;
   onSelectClientById: (clientId: string) => void;
+  onDeleteClient?: (clientId: string) => void;
 }
 
 export const ClientDetail: React.FC<ClientDetailProps> = ({
@@ -44,6 +46,7 @@ export const ClientDetail: React.FC<ClientDetailProps> = ({
   onBack,
   onUpdateClient,
   onSelectClientById,
+  onDeleteClient,
 }) => {
   // Services filtering state
   const [servicesFilter, setServicesFilter] = useState<'activos' | 'completados'>('activos');
@@ -52,12 +55,21 @@ export const ClientDetail: React.FC<ClientDetailProps> = ({
   // Modals state
   const [isEditingClient, setIsEditingClient] = useState(false);
   const [isAddingService, setIsAddingService] = useState(false);
-  useLockBodyScroll(isEditingClient || isAddingService);
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  useLockBodyScroll(isEditingClient || isAddingService || isConfirmingDelete);
   const [showClientsDropdown, setShowClientsDropdown] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  const handleDeleteClientConfirm = () => {
+    setIsConfirmingDelete(false);
+    if (onDeleteClient) {
+      onDeleteClient(client.id);
+    }
+    onBack();
+  };
+
   // New Service Form State
-  const [newServiceType, setNewServiceType] = useState('Actos y contratos');
+  const [newServiceType, setNewServiceType] = useState('Constitución de Sociedad');
   const [newServiceFee, setNewServiceFee] = useState('$1,200');
   const [newServiceDescription, setNewServiceDescription] = useState('');
 
@@ -86,7 +98,7 @@ export const ClientDetail: React.FC<ClientDetailProps> = ({
     occupation: client?.occupation || '',
     // Service fields
     selectedServiceId: client?.services?.[0]?.id || '',
-    serviceType: client?.services?.[0]?.serviceType || 'Actos y contratos',
+    serviceType: client?.services?.[0]?.serviceType || 'Constitución de Sociedad',
     serviceFee: client?.services?.[0]?.fee || '$1,200',
     serviceStatus: client?.services?.[0]?.status || 'En proceso',
     serviceDescription: client?.services?.[0]?.description || '',
@@ -393,8 +405,8 @@ export const ClientDetail: React.FC<ClientDetailProps> = ({
             </div>
           </div>
 
-          {/* Action Button: Editar cliente */}
-          <div className="flex items-center gap-3 shrink-0 self-start md:self-center">
+          {/* Action Buttons: Editar cliente & Eliminar cliente */}
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0 self-start md:self-center flex-wrap">
             <button
               type="button"
               onClick={() => {
@@ -412,17 +424,27 @@ export const ClientDetail: React.FC<ClientDetailProps> = ({
                   civilStatus: client.civilStatus || (!isJuridica ? 'Casado(a) una vez' : 'No aplica'),
                   occupation: client.occupation || '',
                   selectedServiceId: firstService?.id || '',
-                  serviceType: firstService?.serviceType || 'Actos y contratos',
+                  serviceType: firstService?.serviceType || 'Constitución de Sociedad',
                   serviceFee: firstService?.fee || '$1,200',
                   serviceStatus: firstService?.status || 'En proceso',
                   serviceDescription: firstService?.description || '',
                 });
                 setIsEditingClient(true);
               }}
-              className="inline-flex items-center gap-2.5 px-5 py-2.5 sm:py-3 bg-neutral-100 hover:bg-neutral-200/80 dark:bg-[#1C1C21] dark:hover:bg-[#25252C] text-neutral-900 dark:text-neutral-100 text-xs sm:text-sm font-bold rounded-xl border border-neutral-200/80 dark:border-[#2A2A32] shadow-2xs transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 bg-neutral-100 hover:bg-neutral-200/80 dark:bg-[#1C1C21] dark:hover:bg-[#25252C] text-neutral-900 dark:text-neutral-100 text-xs sm:text-sm font-bold rounded-xl border border-neutral-200/80 dark:border-[#2A2A32] shadow-2xs transition-colors cursor-pointer"
             >
               <Pencil className="w-4 h-4 text-neutral-600 dark:text-neutral-300" />
               <span>Editar cliente</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsConfirmingDelete(true)}
+              className="inline-flex items-center gap-2 px-3.5 sm:px-4.5 py-2.5 sm:py-3 bg-rose-50 hover:bg-rose-100/90 dark:bg-rose-950/30 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-bold rounded-xl border border-rose-200/90 dark:border-rose-900/50 shadow-2xs transition-colors cursor-pointer"
+              title="Eliminar cliente"
+            >
+              <Trash2 className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+              <span>Eliminar cliente</span>
             </button>
           </div>
         </div>
@@ -967,7 +989,7 @@ export const ClientDetail: React.FC<ClientDetailProps> = ({
                             setEditFormData({
                               ...editFormData,
                               selectedServiceId: targetServ.id,
-                              serviceType: targetServ.serviceType || 'Actos y contratos',
+                              serviceType: targetServ.serviceType || 'Constitución de Sociedad',
                               serviceFee: targetServ.fee || '$1,200',
                               serviceStatus: targetServ.status || 'En proceso',
                               serviceDescription: targetServ.description || '',
@@ -995,15 +1017,10 @@ export const ClientDetail: React.FC<ClientDetailProps> = ({
                         onChange={(e) => setEditFormData({ ...editFormData, serviceType: e.target.value })}
                         className="w-full px-4 py-2.5 text-sm sm:text-base rounded-xl border border-neutral-200 dark:border-[#2A2A32] bg-neutral-50 dark:bg-[#1C1C21] text-neutral-900 dark:text-white focus:outline-none font-semibold"
                       >
-                        <option value="Actos y contratos">Actos y contratos</option>
-                        <option value="Poderes">Poderes</option>
-                        <option value="Sociedades">Sociedades</option>
-                        <option value="Compraventas">Compraventas</option>
-                        <option value="Hipotecas">Hipotecas</option>
+                        <option value="Constitución de Sociedad">Constitución de Sociedad</option>
+                        <option value="Poder">Poder</option>
+                        <option value="Fideicomiso">Fideicomiso</option>
                         <option value="Testamentos">Testamentos</option>
-                        <option value="Donaciones">Donaciones</option>
-                        <option value="Fideicomisos">Fideicomisos</option>
-                        <option value="Cancelación de gravámenes">Cancelación de gravámenes</option>
                       </select>
                     </div>
 
@@ -1051,20 +1068,33 @@ export const ClientDetail: React.FC<ClientDetailProps> = ({
               </div>
 
                 {/* Footer Fijo con Botones de Acción */}
-                <div className="shrink-0 flex items-center justify-end gap-3 p-4 sm:p-5 border-t border-neutral-100 dark:border-[#26262B] bg-neutral-50/80 dark:bg-[#18181D]">
+                <div className="shrink-0 flex items-center justify-between p-4 sm:p-5 border-t border-neutral-100 dark:border-[#26262B] bg-neutral-50/80 dark:bg-[#18181D]">
                   <button
                     type="button"
-                    onClick={() => setIsEditingClient(false)}
-                    className="px-5 py-2.5 text-sm font-semibold text-neutral-600 dark:text-neutral-300 bg-neutral-200/60 dark:bg-[#25252D] rounded-xl cursor-pointer hover:bg-neutral-200 dark:hover:bg-[#2E2E38] transition-colors"
+                    onClick={() => {
+                      setIsEditingClient(false);
+                      setIsConfirmingDelete(true);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-100/60 dark:hover:bg-rose-950/40 rounded-xl transition-colors cursor-pointer"
                   >
-                    Cancelar
+                    <Trash2 className="w-4 h-4" />
+                    <span>Eliminar cliente</span>
                   </button>
-                  <button
-                    type="submit"
-                    className="px-6 py-2.5 text-sm sm:text-base font-bold text-white bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-100 rounded-xl cursor-pointer shadow-xs transition-colors"
-                  >
-                    Guardar Cambios del Cliente & Trámite
-                  </button>
+                  <div className="flex items-center gap-2.5 sm:gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setIsEditingClient(false)}
+                      className="px-4 sm:px-5 py-2.5 text-xs sm:text-sm font-semibold text-neutral-600 dark:text-neutral-300 bg-neutral-200/60 dark:bg-[#25252D] rounded-xl cursor-pointer hover:bg-neutral-200 dark:hover:bg-[#2E2E38] transition-colors"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 sm:px-6 py-2.5 text-xs sm:text-sm font-bold text-white bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-100 rounded-xl cursor-pointer shadow-xs transition-colors"
+                    >
+                      Guardar Cambios
+                    </button>
+                  </div>
                 </div>
               </form>
             </motion.div>
@@ -1123,15 +1153,10 @@ export const ClientDetail: React.FC<ClientDetailProps> = ({
                       onChange={(e) => setNewServiceType(e.target.value)}
                       className="w-full px-4 py-2.5 text-sm sm:text-base rounded-xl border border-neutral-200 dark:border-[#2A2A32] bg-neutral-50 dark:bg-[#1C1C21] text-neutral-900 dark:text-white focus:outline-none font-semibold"
                     >
-                      <option value="Actos y contratos">Actos y contratos</option>
-                      <option value="Poderes">Poderes</option>
-                      <option value="Sociedades">Sociedades</option>
-                      <option value="Compraventas">Compraventas</option>
-                      <option value="Hipotecas">Hipotecas</option>
+                      <option value="Constitución de Sociedad">Constitución de Sociedad</option>
+                      <option value="Poder">Poder</option>
+                      <option value="Fideicomiso">Fideicomiso</option>
                       <option value="Testamentos">Testamentos</option>
-                      <option value="Donaciones">Donaciones</option>
-                      <option value="Fideicomisos">Fideicomisos</option>
-                      <option value="Cancelación de gravámenes">Cancelación de gravámenes</option>
                     </select>
                   </div>
 
@@ -1178,6 +1203,63 @@ export const ClientDetail: React.FC<ClientDetailProps> = ({
                   </button>
                 </div>
               </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+      {/* MODAL: CONFIRMACIÓN DE ELIMINAR CLIENTE */}
+      <AnimatePresence>
+        {isConfirmingDelete && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-hidden">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsConfirmingDelete(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-xs"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.18, ease: 'easeOut' }}
+              className="relative w-full max-w-md bg-white dark:bg-[#141417] border border-neutral-200/90 dark:border-[#26262B] rounded-3xl shadow-2xl z-10 overflow-hidden p-6 sm:p-7"
+            >
+              <div className="flex items-center gap-3.5 mb-4">
+                <div className="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0">
+                  <Trash2 className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
+                    ¿Eliminar cliente?
+                  </h3>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                    Esta acción no se puede deshacer
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed mb-6">
+                ¿Está seguro de que desea eliminar el expediente de <strong className="text-neutral-900 dark:text-white font-bold">{client.name}</strong>? Se eliminarán todos sus trámites notariales, tareas y documentos asociados de forma permanente.
+              </p>
+
+              <div className="flex items-center justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setIsConfirmingDelete(false)}
+                  className="px-4 py-2.5 text-sm font-semibold text-neutral-600 dark:text-neutral-300 bg-neutral-100 hover:bg-neutral-200 dark:bg-[#202026] dark:hover:bg-[#2A2A32] rounded-xl transition-colors cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDeleteClientConfirm}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-xl transition-colors shadow-sm cursor-pointer"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  <span>Sí, eliminar cliente</span>
+                </button>
+              </div>
             </motion.div>
           </div>
         )}

@@ -1,6 +1,14 @@
+export const REFERENCE_DOCUMENTS = [
+  'Identificación',
+  'Entero de Gobierno',
+  'Documentos Apostillados',
+] as const;
+
+export type ReferenceDocumentType = typeof REFERENCE_DOCUMENTS[number];
+
 export interface ReferenceDocument {
   id: string;
-  title: string;
+  title: ReferenceDocumentType | string;
   status: 'Aportado' | 'Pendiente' | string;
   uploadedAt?: string;
   fileSize?: string;
@@ -68,9 +76,18 @@ export interface NotaryServiceRequirement {
   completed: boolean;
 }
 
+export const NOTARY_SERVICES = [
+  'Constitución de Sociedad',
+  'Poder',
+  'Fideicomiso',
+  'Testamentos',
+] as const;
+
+export type NotaryServiceType = typeof NOTARY_SERVICES[number];
+
 export interface NotaryServiceItem {
   id: string;
-  serviceType: string;
+  serviceType: NotaryServiceType | string;
   startDate: string;
   fee: string;
   status: 'En proceso' | 'Completado' | string;

@@ -18,13 +18,51 @@ import { ConfiguracionView } from './components/views/ConfiguracionView.tsx';
 import { INITIAL_CLIENTS } from './data/mockClients.ts';
 import { Client } from './types/client.ts';
 
+const normalizeServiceType = (st?: string): string => {
+  if (!st) return 'Constitución de Sociedad';
+  if (st === 'Poder' || st === 'Poderes') return 'Poder';
+  if (st === 'Fideicomiso' || st === 'Fideicomisos') return 'Fideicomiso';
+  if (st === 'Testamentos' || st === 'Testamento') return 'Testamentos';
+  if (st === 'Constitución de Sociedad' || st === 'Sociedades') return 'Constitución de Sociedad';
+  if (st === 'Compraventas' || st === 'Hipotecas' || st === 'Actos y contratos') return 'Fideicomiso';
+  return 'Constitución de Sociedad';
+};
+
+const normalizeDocTitle = (title?: string): string | null => {
+  if (!title) return null;
+  const t = title.trim().toLowerCase();
+  if (t.includes('identifi') || t.includes('cédula') || t.includes('cedula') || t.includes('pasaporte')) return 'Identificación';
+  if (t.includes('entero') || t.includes('gobierno') || t.includes('timbres') || t.includes('bcr')) return 'Entero de Gobierno';
+  if (t.includes('apostill') || t.includes('apostilla')) return 'Documentos Apostillados';
+  return null;
+};
+
+const sanitizeDocs = (docs?: any[]): any[] => {
+  if (!docs || !Array.isArray(docs)) return [];
+  return docs
+    .map((d) => {
+      const normalized = normalizeDocTitle(d.title);
+      return normalized ? { ...d, title: normalized } : null;
+    })
+    .filter(Boolean);
+};
+
 export default function App() {
   const [activeNav, setActiveNav] = useState('dashboard');
   const [clients, setClients] = useState<Client[]>(() => {
-    const saved = localStorage.getItem('app-clients-data-v7');
+    const saved = localStorage.getItem('app-clients-data-v9');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed: Client[] = JSON.parse(saved);
+        return parsed.map((c) => ({
+          ...c,
+          referenceDocuments: sanitizeDocs(c.referenceDocuments),
+          services: (c.services || []).map((s) => ({
+            ...s,
+            serviceType: normalizeServiceType(s.serviceType),
+            documents: sanitizeDocs(s.documents),
+          })),
+        }));
       } catch (e) {
         return INITIAL_CLIENTS;
       }
@@ -61,7 +99,7 @@ export default function App() {
 
   // Persist clients data
   useEffect(() => {
-    localStorage.setItem('app-clients-data-v7', JSON.stringify(clients));
+    localStorage.setItem('app-clients-data-v9', JSON.stringify(clients));
   }, [clients]);
 
   // Handlers for clients
@@ -69,6 +107,11 @@ export default function App() {
     setClients((prev) =>
       prev.map((c) => (c.id === updatedClient.id ? updatedClient : c))
     );
+  };
+
+  const handleDeleteClient = (clientId: string) => {
+    setClients((prev) => prev.filter((c) => c.id !== clientId));
+    setSelectedClientId(null);
   };
 
   const handleAddClient = (newClient: Client) => {
@@ -201,6 +244,7 @@ export default function App() {
                 onBack={() => setSelectedClientId(null)}
                 onUpdateClient={handleUpdateClient}
                 onSelectClientById={(id) => setSelectedClientId(id)}
+                onDeleteClient={handleDeleteClient}
               />
             ) : (
               <ClientDirectory

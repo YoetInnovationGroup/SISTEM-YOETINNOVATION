@@ -16,11 +16,11 @@ export const INITIAL_CLIENTS: Client[] = [
     registrationDate: '15/01/2021',
     lastActivity: 'Hoy (revisión de protocolo)',
     status: 'Activo',
-    notes: 'Cliente preferente corporativo. Requiere copias certificadas de personerías y escrituras de traspaso para trámites bancarios antes de fin de mes.',
+    notes: 'Cliente preferente corporativo. Requiere copias certificadas de personerías y escrituras de fideicomiso para trámites bancarios antes de fin de mes.',
     services: [
       {
         id: 'serv-101',
-        serviceType: 'Actos y contratos',
+        serviceType: 'Fideicomiso',
         startDate: '12/05/2021',
         fee: '$2,800',
         status: 'En proceso',
@@ -36,7 +36,26 @@ export const INITIAL_CLIENTS: Client[] = [
           verifiedDate: '12/05/2021',
           beneficialOwnerDeclared: true
         },
-        documents: [],
+        documents: [
+          {
+            id: 'doc-101-1',
+            title: 'Identificación',
+            status: 'Aportado',
+            uploadedAt: '12/05/2021',
+            fileSize: '2.4 MB',
+            fileType: 'PDF',
+            fileName: 'Identificacion_Apoderado_Legal.pdf',
+          },
+          {
+            id: 'doc-101-2',
+            title: 'Entero de Gobierno',
+            status: 'Aportado',
+            uploadedAt: '14/05/2021',
+            fileSize: '1.2 MB',
+            fileType: 'PDF',
+            fileName: 'Entero_Gobierno_Timbres_Registro.pdf',
+          },
+        ],
         tasks: [
           { id: 'task-101-1', title: 'Verificación de personería e identidad en Registro Nacional', completed: true, priority: 'alta' },
           { id: 'task-101-2', title: 'Revisión registral y estudio de gravámenes finca 4-192834', completed: true, priority: 'alta' },
@@ -57,7 +76,7 @@ export const INITIAL_CLIENTS: Client[] = [
       },
       {
         id: 'serv-102',
-        serviceType: 'Poderes',
+        serviceType: 'Poder',
         startDate: '28/04/2021',
         fee: '$650',
         status: 'En proceso',
@@ -73,7 +92,26 @@ export const INITIAL_CLIENTS: Client[] = [
           verifiedDate: '28/04/2021',
           beneficialOwnerDeclared: true
         },
-        documents: [],
+        documents: [
+          {
+            id: 'doc-102-1',
+            title: 'Identificación',
+            status: 'Aportado',
+            uploadedAt: '28/04/2021',
+            fileSize: '1.9 MB',
+            fileType: 'PDF',
+            fileName: 'Identificacion_Poderdante.pdf',
+          },
+          {
+            id: 'doc-102-2',
+            title: 'Documentos Apostillados',
+            status: 'Aportado',
+            uploadedAt: '30/04/2021',
+            fileSize: '4.6 MB',
+            fileType: 'PDF',
+            fileName: 'Poder_Apostilla_Haya.pdf',
+          },
+        ],
         tasks: [
           { id: 'task-102-1', title: 'Cotejo de facultades de otorgamiento en pacto social', completed: true, priority: 'alta' },
           { id: 'task-102-2', title: 'Otorgamiento de escritura pública de poder', completed: true, priority: 'alta' },
@@ -90,13 +128,13 @@ export const INITIAL_CLIENTS: Client[] = [
       },
       {
         id: 'serv-103',
-        serviceType: 'Sociedades',
+        serviceType: 'Constitución de Sociedad',
         startDate: '10/02/2021',
         fee: '$1,500',
         status: 'Completado',
         protocolNumber: 'Tomo XLIII - Asiento 44',
         folioNumber: 'Folio 72 al 78',
-        description: 'Modificación de pacto constitutivo y aumento de capital social autorizado.',
+        description: 'Constitución y formalización de pacto constitutivo con capital social autorizado.',
         relatedPersons: [],
         ddc: {
           riskLevel: 'Bajo',
@@ -121,13 +159,13 @@ export const INITIAL_CLIENTS: Client[] = [
       },
       {
         id: 'serv-104',
-        serviceType: 'Compraventas',
+        serviceType: 'Fideicomiso',
         startDate: '18/11/2020',
         fee: '$4,200',
         status: 'Completado',
         protocolNumber: 'Tomo XLII - Asiento 12',
         folioNumber: 'Folio 22 al 29',
-        description: 'Escritura pública de compraventa de inmueble de 4,500 m² en Santa Ana.',
+        description: 'Fideicomiso de garantía y administración patrimonial sobre inmueble de 4,500 m² en Santa Ana.',
         relatedPersons: [],
         ddc: {
           riskLevel: 'Bajo',
@@ -166,17 +204,17 @@ export const INITIAL_CLIENTS: Client[] = [
     registrationDate: '04/03/2021',
     lastActivity: 'Ayer (actualización de datos)',
     status: 'Activo',
-    notes: 'En proceso de adquisición de segundo inmueble residencial. Requiere redacción de testamento abierto.',
+    notes: 'En proceso de fideicomiso de adquisición residencial. Requiere redacción de testamento abierto.',
     services: [
       {
         id: 'serv-201',
-        serviceType: 'Compraventas',
+        serviceType: 'Fideicomiso',
         startDate: '08/05/2021',
         fee: '$1,850',
         status: 'En proceso',
         protocolNumber: 'Tomo XLV - Asiento 102',
         folioNumber: 'Folio 199 al 203',
-        description: 'Compraventa de lote urbano y constitución de hipoteca en primer grado.',
+        description: 'Fideicomiso de adquisición y garantía fiduciaria para lote urbano residencial.',
         relatedPersons: [],
         ddc: {
           riskLevel: 'Bajo',
@@ -237,11 +275,11 @@ export const INITIAL_CLIENTS: Client[] = [
     registrationDate: '22/02/2021',
     lastActivity: '10/05/2021',
     status: 'Activo',
-    notes: 'Constitución de sociedad médica y contrato de arrendamiento de local comercial.',
+    notes: 'Constitución de sociedad médica y trámites corporativos.',
     services: [
       {
         id: 'serv-301',
-        serviceType: 'Sociedades',
+        serviceType: 'Constitución de Sociedad',
         startDate: '02/05/2021',
         fee: '$1,350',
         status: 'En proceso',
@@ -284,17 +322,17 @@ export const INITIAL_CLIENTS: Client[] = [
     registrationDate: '19/11/2020',
     lastActivity: '05/05/2021',
     status: 'Activo',
-    notes: 'Trámites notariales recurrentes de licitaciones y garantías de cumplimiento.',
+    notes: 'Trámites notariales de fideicomiso y otorgamiento de poderes corporativos.',
     services: [
       {
         id: 'serv-401',
-        serviceType: 'Hipotecas',
+        serviceType: 'Fideicomiso',
         startDate: '20/04/2021',
         fee: '$3,100',
         status: 'En proceso',
         protocolNumber: 'Tomo XLIV - Asiento 110',
         folioNumber: 'Folio 210 al 218',
-        description: 'Cancelación de gravamen hipotecario y levantamiento de anotación judicial.',
+        description: 'Fideicomiso de garantía y administración fiduciaria para obra civil de infraestructura.',
         relatedPersons: [],
         ddc: {
           riskLevel: 'Bajo',
@@ -315,19 +353,19 @@ export const INITIAL_CLIENTS: Client[] = [
       },
       {
         id: 'serv-402',
-        serviceType: 'Donaciones',
+        serviceType: 'Poder',
         startDate: '12/12/2020',
         fee: '$1,100',
         status: 'Completado',
         protocolNumber: 'Tomo XLII - Asiento 77',
         folioNumber: 'Folio 140 al 144',
-        description: 'Donación de franja de terreno a favor de la Municipalidad para ampliación vial.',
+        description: 'Poder General Notarial para representación de la sociedad ante autoridades gubernamentales.',
         relatedPersons: [],
         ddc: {
           riskLevel: 'Bajo',
           status: 'Cumplido',
           pepStatus: false,
-          originOfFunds: 'Donación pública según ley de planificación urbana',
+          originOfFunds: 'Actividad empresarial legítima',
           verifiedDate: '12/12/2020',
           beneficialOwnerDeclared: true
         },
@@ -356,7 +394,7 @@ export const INITIAL_CLIENTS: Client[] = [
     services: [
       {
         id: 'serv-501',
-        serviceType: 'Poderes',
+        serviceType: 'Poder',
         startDate: '10/05/2021',
         fee: '$500',
         status: 'En proceso',
@@ -394,17 +432,17 @@ export const INITIAL_CLIENTS: Client[] = [
     registrationDate: '12/01/2021',
     lastActivity: 'Hoy',
     status: 'Activo',
-    notes: 'Expediente inter-bufete para custodia y archivo de protocolos notariales y poderes consulares.',
+    notes: 'Expediente inter-bufete para custodia y constitución de sociedades y poderes consulares.',
     services: [
       {
         id: 'serv-601',
-        serviceType: 'Actos y contratos',
+        serviceType: 'Constitución de Sociedad',
         startDate: '14/05/2021',
         fee: '$3,500',
         status: 'En proceso',
         protocolNumber: 'Tomo XLVI - Asiento 05',
         folioNumber: 'Folio 10 al 16',
-        description: 'Fusión por absorción de sociedades comerciales y cesión total de activos.',
+        description: 'Constitución de Sociedad mercantil y estructuración estatutaria inter-bufete.',
         relatedPersons: [],
         ddc: {
           riskLevel: 'Bajo',
