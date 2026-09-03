@@ -544,7 +544,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                     </span>
                   </div>
                   <span className="text-sm text-neutral-500 dark:text-neutral-400 mt-1.5 block">
-                    Conforme al Arancel Notarial vigente
+                    Monto acordado del trámite
                   </span>
                 </div>
 
@@ -558,7 +558,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                     </span>
                   </div>
                   <span className="text-sm text-neutral-500 dark:text-neutral-400 mt-1.5 block">
-                    Radicación de expediente notarial
+                    Inicio del trámite
                   </span>
                 </div>
               </div>
